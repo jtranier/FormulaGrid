@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FormulaGrid.iml" filepath="$PROJECT_DIR$/FormulaGrid.iml" />
       <module fileurl="file://$PROJECT_DIR$/FormulaGrid-grailsPlugins.iml" filepath="$PROJECT_DIR$/FormulaGrid-grailsPlugins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FormulaGrid-grailsPlugins.iml" filepath="$PROJECT_DIR$/FormulaGrid-grailsPlugins.iml" />
     </modules>
   </component>
 </project>
