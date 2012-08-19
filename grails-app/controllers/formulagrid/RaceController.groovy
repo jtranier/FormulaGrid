@@ -1,12 +1,11 @@
 package formulagrid
 
-class CarController {
+class RaceController {
 
-    CarFactoryService carFactoryService
-    CarService carService
+    RaceSessionService raceSessionService
 
     def index() {
-        return [car: carFactoryService.demoCar]
+        return [race: raceSessionService.race]
     }
 
     def makeAMove(AccelerateCommand command) {
@@ -14,12 +13,12 @@ class CarController {
             throw new IllegalArgumentException(command.errors.toString())
         }
 
-        Speed deltaSpeed = getAccelerationFromCode(command.accelerationCode)
-        carService.makeAMove(carFactoryService.demoCar, deltaSpeed)
+        Point deltaSpeed = getAccelerationFromCode(command.accelerationCode)
+        raceSessionService.race.play(deltaSpeed)
         redirect(action:  "index")
     }
 
-    private Speed getAccelerationFromCode(int accelerationCode) {
+    private Point getAccelerationFromCode(int accelerationCode) {
         int deltaSpeedX = 0
         if (accelerationCode in [1, 4, 7]) {
             deltaSpeedX = -1
@@ -30,13 +29,12 @@ class CarController {
 
         int deltaSpeedY = 0
         if (accelerationCode in [1, 2, 3]) {
-            deltaSpeedY = -1
-        }
-        else if (accelerationCode in [7, 8, 9]) {
             deltaSpeedY = 1
         }
+        else if (accelerationCode in [7, 8, 9]) {
+            deltaSpeedY = -1
+        }
 
-        return new Speed(x: deltaSpeedX, y: deltaSpeedY)
+        return new Point(x: deltaSpeedX, y: deltaSpeedY)
     }
-
 }

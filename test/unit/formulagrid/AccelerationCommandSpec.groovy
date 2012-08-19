@@ -3,7 +3,7 @@ package formulagrid
 import grails.plugin.spock.UnitSpec
 import grails.test.mixin.TestFor
 
-@TestFor(CarController)
+@TestFor(RaceController)
 class AccelerationCommandSpec extends UnitSpec {
 
     def "validate"() {

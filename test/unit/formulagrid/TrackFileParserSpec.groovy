@@ -1,7 +1,6 @@
 package formulagrid
 
 import spock.lang.Specification
-import java.awt.Point
 
 class TrackFileParserSpec extends Specification {
 
@@ -66,17 +65,17 @@ class TrackFileParserSpec extends Specification {
         then:
         track.width == 4
         track.height == 5
-        track.startGrid.getStartPositionPoint(1) == new Point(1,2)
-        track.startGrid.getStartPositionPoint(2) == new Point(2,2)
-        track.bitmap[0][0] == TrackPoint.OUT
-        track.bitmap[1][0] == TrackPoint.IN
-        track.bitmap[2][0] == TrackPoint.IN
-        track.bitmap[3][0] == TrackPoint.OUT
-        track.bitmap[0][1] == TrackPoint.FINISH_LINE
-        track.bitmap[1][2] == TrackPoint.START_POSITION_1
-        track.bitmap[2][2] == TrackPoint.START_POSITION_2
+        track.startGrid.getStartPositionPoint(1) == new Point(x: 1, y: 2)
+        track.startGrid.getStartPositionPoint(2) == new Point(x: 2, y: 2)
+        track.map.bitmap[0][0].isObstacle()
+        track.map.bitmap[1][0].isFree()
+        track.map.bitmap[2][0].isFree()
+        track.map.bitmap[3][0].isObstacle()
+        track.map.bitmap[0][1].isFree() && track.map.bitmap[0][1].isFinishLine()
+        track.map.bitmap[1][2].isFree() && track.map.bitmap[1][2].isStartPosition() && track.map.bitmap[1][2].startPositionNum == 1
+        track.map.bitmap[2][2].isFree() && track.map.bitmap[2][2].isStartPosition() && track.map.bitmap[2][2].startPositionNum == 2
 
         where:
-        content ="*..*\n====\n.12.\n*..*\n****"
+        content = "*..*\n====\n.12.\n*..*\n****"
     }
 }

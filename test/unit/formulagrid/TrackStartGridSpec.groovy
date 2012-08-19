@@ -1,7 +1,6 @@
 package formulagrid
 
 import spock.lang.Specification
-import java.awt.Point
 
 class TrackStartGridSpec extends Specification {
 
@@ -23,7 +22,7 @@ class TrackStartGridSpec extends Specification {
         startGrid.addStartPosition(num, x, y)
 
         then:
-        startGrid.getStartPositionPoint(num) == new Point(x,y)
+        startGrid.getStartPositionPoint(num) == new Point(x: x, y: y)
 
         where:
         num | x | y

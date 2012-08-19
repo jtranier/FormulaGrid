@@ -1,17 +1,22 @@
 package formulagrid
 
-class Speed {
+class Point {
     int x
     int y
+
+
+    Point plus(Point p2) {
+        return new Point(x: x+p2.x, y: y+p2.y)
+    }
 
     boolean equals(o) {
         if (this.is(o)) return true
         if (getClass() != o.class) return false
 
-        Speed speed = (Speed) o
+        Point point = (Point) o
 
-        if (x != speed.x) return false
-        if (y != speed.y) return false
+        if (x != point.x) return false
+        if (y != point.y) return false
 
         return true
     }
@@ -25,7 +30,7 @@ class Speed {
 
     @Override
     public String toString() {
-        return "Speed{" +
+        return "Point{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';

@@ -41,7 +41,7 @@ class TrackFileParser {
                 bitmap[x][y] = point
 
                 if(point.isStartPosition()) {
-                    startGrid.addStartPosition(point.getStartPositionNum(), x, y)
+                    startGrid.addStartPosition(point.startPositionNum, x, y)
                 }
             }
         }
@@ -51,7 +51,7 @@ class TrackFileParser {
         return new Track(
                 width: width,
                 height: height,
-                bitmap: bitmap,
+                map: new TrackMap(bitmap),
                 startGrid: startGrid
         )
     }

@@ -1,10 +1,13 @@
 package formulagrid
 
-import java.awt.Point
-
 class TrackStartGrid {
 
     private Point[] allPosition = new Point[6]
+    private int nbPosition = 0
+
+    int getNbPosition() {
+        return nbPosition
+    }
 
     void addStartPosition(int num, int x, int y) {
         checkNum(num)
@@ -16,6 +19,7 @@ class TrackStartGrid {
         checkFreeLocation(x, y)
 
         allPosition[normalizeNum(num)] = new Point(x:  x, y:  y)
+        nbPosition++
     }
 
     private void checkFreeLocation(int x, int y) {
