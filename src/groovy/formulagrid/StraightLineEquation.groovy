@@ -27,14 +27,14 @@ class StraightLineEquation {
             throw new IllegalStateException("Cannot invoke getPointFromX : Equation is of the form 'x = N.")
         }
 
-        new Point(x:  x, y: Math.round(a*x+b))
+        new Point(x, Math.round(a*x+b).toInteger())
     }
 
     Point getPointFromY(int y) {
         if(xN != null) {
-            return new Point(x:  xN, y: y)
+            return new Point(xN, y)
         }
 
-        new Point(x: Math.round((y-b)/a), y: y)
+        new Point(Math.round((y-b)/a).toInteger(), y)
     }
 }

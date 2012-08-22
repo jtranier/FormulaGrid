@@ -35,6 +35,6 @@ class RaceController {
             deltaSpeedY = -1
         }
 
-        return new Point(x: deltaSpeedX, y: deltaSpeedY)
+        return new Point(deltaSpeedX, deltaSpeedY)
     }
 }

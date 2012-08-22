@@ -152,8 +152,34 @@ class RaceSpec extends Specification{
         where:
         name1 = "name1"
         name2 = "name2"
-        deltaSpeed1 = new Point(x: 1, y: 1)
-        deltaSpeed2 = new Point(x: -1, y: -1)
-        deltaSpeed3 = new Point(x: 0, y: 1)
+        deltaSpeed1 = new Point(1, 1)
+        deltaSpeed2 = new Point(-1, -1)
+        deltaSpeed3 = new Point(0, 1)
+    }
+
+    def "getAsciiRepresentation"() {
+        setup:
+        TrackMap map = Mock(TrackMap)
+        map.getAsciiRepresentation() >> mapRepresentation
+
+        Track track = Mock(Track)
+        track.getMap() >> map
+
+        TrajectoryRepresenter trajectoryRepresenter = Mock(TrajectoryRepresenter)
+
+        Race race = new Race(track)
+        race.trajectoryRepresenter = trajectoryRepresenter
+        race.addPlayer('player1')
+        race.addPlayer('player2')
+
+        when:
+        race.asciiRepresentation
+
+        then:
+        1 * trajectoryRepresenter.addTrajectoryToMap(race.getPlayer(1), mapRepresentation)
+        1 * trajectoryRepresenter.addTrajectoryToMap(race.getPlayer(2), mapRepresentation)
+
+        where:
+        mapRepresentation = new Character[3][3]
     }
 }

@@ -4,9 +4,18 @@ class Point {
     int x
     int y
 
+    def Point() {
+        x = 0
+        y = 0
+    }
+
+    def Point(Integer x, Integer y) {
+        this.x = x
+        this.y = y
+    }
 
     Point plus(Point p2) {
-        return new Point(x: x+p2.x, y: y+p2.y)
+        return new Point(x+p2.x, y+p2.y)
     }
 
     boolean equals(o) {

@@ -18,13 +18,13 @@ class TrackStartGrid {
 
         checkFreeLocation(x, y)
 
-        allPosition[normalizeNum(num)] = new Point(x:  x, y:  y)
+        allPosition[normalizeNum(num)] = new Point(x, y)
         nbPosition++
     }
 
     private void checkFreeLocation(int x, int y) {
         allPosition.eachWithIndex { Point point, int num ->
-            if (point == new Point(x: x, y: y)) {
+            if (point == new Point(x, y)) {
                 throw new IllegalStateException(
                         "Start position ${denormalizeNum(num)} occupies location ($x,$y)."
                 )

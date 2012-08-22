@@ -6,7 +6,7 @@ class DefaultMoveStrategySpec extends Specification {
 
     DefaultMoveStrategy strategy = new DefaultMoveStrategy()
 
-    def "calculateMoveResult - without obstacle"(List<Point> path) {
+    def "calculatePathAccordingToMap - without obstacle"(Path path) {
         setup:
         TrackPoint freePoint = new TrackPoint()
         TrackMap map = Mock(TrackMap)
@@ -16,19 +16,19 @@ class DefaultMoveStrategySpec extends Specification {
         track.map >> map
 
         expect:
-        MoveResult moveResult = strategy.calculateMoveResult(track, path)
-        !moveResult.crash
-        moveResult.finalPosition == path.last()
+        Path finalPath = strategy.calculatePathAccordingToMap(track, path)
+        !finalPath.crash
+        finalPath.to == path.to
 
         where:
-        path = [
-                new Point(x: 1, y: 1),
-                new Point(x: 2, y: 2),
-                new Point(x: 3, y: 3)
-        ]
+        path = new Path(
+                from: new Point(1, 1),
+                allIntermediaryPoint: [new Point(2, 2)],
+                to: new Point(3, 3)
+        )
     }
 
-    def "calculateMoveResult - with obstacle"(List<Point> path) {
+    def "calculatePathAccordingToMap - with obstacle"(Path intendedPath) {
         setup:
         TrackPoint freePoint = new TrackPoint()
         TrackPoint obstaclePoint = new TrackPoint(obstacle: true)
@@ -37,33 +37,33 @@ class DefaultMoveStrategySpec extends Specification {
         track.map >> map
 
         when:
-        MoveResult moveResult = strategy.calculateMoveResult(track, path)
+        Path effectivePath = strategy.calculatePathAccordingToMap(track, intendedPath)
 
         then:
-        map.getTrackPoint( {Point p -> p.x != 2} ) >> freePoint
-        map.getTrackPoint( {Point p -> p.x == 2} ) >> obstaclePoint
+        map.getTrackPoint({Point p -> p.x != 2}) >> freePoint
+        map.getTrackPoint({Point p -> p.x == 2}) >> obstaclePoint
 
         then:
-        moveResult.crash
-        moveResult.finalPosition == path.first()
+        effectivePath.crash
+        effectivePath.to == intendedPath.from
 
         and:
         when:
-        moveResult = strategy.calculateMoveResult(track, path)
+        effectivePath = strategy.calculatePathAccordingToMap(track, intendedPath)
 
         then:
-        map.getTrackPoint( {Point p -> p.x != 3} ) >> freePoint
-        map.getTrackPoint( {Point p -> p.x == 3} ) >> obstaclePoint
+        map.getTrackPoint({Point p -> p.x != 3}) >> freePoint
+        map.getTrackPoint({Point p -> p.x == 3}) >> obstaclePoint
 
         then:
-        moveResult.crash
-        moveResult.finalPosition == path[1]
+        effectivePath.crash
+        effectivePath.to == intendedPath.allIntermediaryPoint[0]
 
         where:
-        path = [
-                new Point(x: 1, y: 1),
-                new Point(x: 2, y: 2),
-                new Point(x: 3, y: 3)
-        ]
+        intendedPath = new Path(
+                from:  new Point(1, 1),
+                allIntermediaryPoint: [new Point(2, 2)],
+                to:  new Point(3, 3)
+        )
     }
 }

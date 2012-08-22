@@ -2,19 +2,27 @@ package formulagrid
 
 class PathFinder {
 
-    List<Point> findPath(Move move) {
+    Path findPath(Move move) {
         StraightLineEquation equation = new StraightLineEquation(move.from, move.to)
 
+        List<Point> allPoint = []
+
         if (move.deltaX > move.deltaY) {
-            return (move.from.x..move.to.x).collect { int x ->
+            allPoint = (move.from.x..move.to.x).collect { int x ->
                 equation.getPointFromX(x)
             }
         }
         else {
-            return (move.from.y..move.to.y).collect { int y ->
+            allPoint =  (move.from.y..move.to.y).collect { int y ->
                 equation.getPointFromY(y)
             }
         }
+
+        return new Path(
+                from: allPoint.first(),
+                to:  allPoint.last(),
+                allIntermediaryPoint: allPoint.size() > 2 ? allPoint[1..-2] : []
+        )
     }
 
 

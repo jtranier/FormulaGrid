@@ -3,15 +3,23 @@ package formulagrid
 class Car {
 
     Integer num = null
+    Point position = null
+    Point speed = new Point(0, 0)
+    List<Path> trajectory = []
 
-    Point position = new Point(x: 0, y: 0)
-
-    Point speed = new Point(x: 0, y: 0)
+    void followPath(Path path) {
+        trajectory << path
+        position = path.to
+    }
 
     Move intendedMove() {
+        if (!position) {
+            throw new IllegalStateException("The car has no position.")
+        }
+
         return new Move(
-                from: new Point(x: position.x, y: position.y),
-                to: new Point(x: position.x+speed.x, y:  position.y+speed.y)
+                from: new Point(position.x, position.y),
+                to: new Point(position.x + speed.x, position.y + speed.y)
         )
     }
 
@@ -23,8 +31,8 @@ class Car {
     @Override
     public String toString() {
         return "Car{" +
-                ", positionX=" + position.x +
-                ", positionY=" + position.y +
+                ", positionX=" + position?.x +
+                ", positionY=" + position?.y +
                 ", speedX=" + speed.x +
                 ", speedY=" + speed.y +
                 '}';

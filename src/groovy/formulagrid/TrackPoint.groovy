@@ -11,7 +11,7 @@ class TrackPoint {
         return !obstacle && !car
     }
 
-    char getAsciRepresentation() {
+    char getAsciiRepresentation() {
         if(obstacle) {
             return '■'
         }

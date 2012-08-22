@@ -4,12 +4,21 @@ class Move {
     Point from
     Point to
 
+    int getDistance() {
+        return Math.max(deltaX, deltaY)
+    }
+
     int getDeltaX() {
         return Math.abs(to.x - from.x)
     }
 
     int getDeltaY() {
         return Math.abs(to.y - from.y)
+    }
+
+    @Override
+    public String toString() {
+        return "<${from.x},${from.y}> - <${to.x},${to.y}>"
     }
 
     boolean equals(o) {

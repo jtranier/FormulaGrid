@@ -39,20 +39,20 @@ class TrackSpec extends Specification {
         track.addCar(car1)
 
         then:
-        1 * startGrid.getStartPositionPoint(1) >> new Point(x: 0, y: 0)
+        1 * startGrid.getStartPositionPoint(1) >> new Point(0, 0)
         notThrown(Exception)
         track.map.bitmap[0][0].car == car1
-        car1.position == new Point(x: 0, y: 0)
+        car1.position == new Point(0, 0)
 
         and:
         when:
         track.addCar(car2)
 
         then:
-        1 * startGrid.getStartPositionPoint(2) >> new Point(x: 1, y: 1)
+        1 * startGrid.getStartPositionPoint(2) >> new Point(1, 1)
         notThrown(Exception)
         track.map.bitmap[1][1].car == car2
-        car2.position == new Point(x: 1, y: 1)
+        car2.position == new Point(1, 1)
 
         and:
         when:
@@ -83,26 +83,24 @@ class TrackSpec extends Specification {
         track.playCar(car)
 
         then:
-        1 * pathFinder.findPath(car.intendedMove()) >> path
-        1 * moveStrategy.calculateMoveResult(track, path) >> new MoveResult(
-                finalPosition: finalPosition,
-                crash: crash
-        )
-        1 * map.moveCarTo(car, finalPosition)
+        1 * pathFinder.findPath(car.intendedMove()) >> intendedPath
+        1 * moveStrategy.calculatePathAccordingToMap(track, intendedPath) >> effectivePath
+        1 * map.moveCarTo(car, effectivePath)
 
         if(crash) {
-            car.speed == new Point(x: 0, y: 0)
+            car.speed == new Point(0, 0)
         }
         else {
             car.speed == speed
         }
 
         where:
-        path = [new Point()]
-        finalPosition = new Point(x: 1, y: 1)
-        car = new Car()
+        finalPosition = new Point(1, 1)
+        intendedPath = new Path(to:  finalPosition)
         crash = [false, true]
-        speed = new Point(x: 1, y: 1)
+        effectivePath = new Path(to: finalPosition, crash: crash)
+        car = new Car(position: new Point(0, 0))
+        speed = new Point(1, 1)
     }
 
     TrackMap createBitmapTest(int width, int height) {

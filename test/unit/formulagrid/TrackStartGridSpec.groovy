@@ -22,7 +22,7 @@ class TrackStartGridSpec extends Specification {
         startGrid.addStartPosition(num, x, y)
 
         then:
-        startGrid.getStartPositionPoint(num) == new Point(x: x, y: y)
+        startGrid.getStartPositionPoint(num) == new Point(x, y)
 
         where:
         num | x | y

@@ -49,8 +49,6 @@ class TrackFileParser {
         startGrid.validate()
 
         return new Track(
-                width: width,
-                height: height,
                 map: new TrackMap(bitmap),
                 startGrid: startGrid
         )

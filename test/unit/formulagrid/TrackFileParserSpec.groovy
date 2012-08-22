@@ -65,8 +65,8 @@ class TrackFileParserSpec extends Specification {
         then:
         track.width == 4
         track.height == 5
-        track.startGrid.getStartPositionPoint(1) == new Point(x: 1, y: 2)
-        track.startGrid.getStartPositionPoint(2) == new Point(x: 2, y: 2)
+        track.startGrid.getStartPositionPoint(1) == new Point(1, 2)
+        track.startGrid.getStartPositionPoint(2) == new Point(2, 2)
         track.map.bitmap[0][0].isObstacle()
         track.map.bitmap[1][0].isFree()
         track.map.bitmap[2][0].isFree()

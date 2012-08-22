@@ -9,6 +9,8 @@ class Race {
     int numTurn
     int currentPlayerNum
 
+    TrajectoryRepresenter trajectoryRepresenter = new TrajectoryRepresenter()
+
     Race(Track track) {
         this.track = track
     }
@@ -18,22 +20,26 @@ class Race {
     }
 
     Player getPlayer(int num) {
-        if(num > allPlayer.size()) {
+        if (num > allPlayer.size()) {
             return null
         }
 
-        return allPlayer[num-1]
+        return allPlayer[num - 1]
+    }
+
+    Player getCurrentPlayer() {
+        return allPlayer[currentPlayerNum - 1]
     }
 
     void addPlayer(String name) {
-        Car car = new Car(num: allPlayer.size()+1)
-        Player player = new Player(name: name, car:  car)
+        Car car = new Car(num: allPlayer.size() + 1)
+        Player player = new Player(name: name, car: car)
         allPlayer << player
         track.addCar(car)
     }
 
     void start() {
-        if(allPlayer.isEmpty()) {
+        if (allPlayer.isEmpty()) {
             throw new IllegalStateException("There is no player.")
         }
 
@@ -45,7 +51,7 @@ class Race {
     void play(Point deltaSpeed) {
         checkIsStarted()
 
-        Player player = allPlayer[currentPlayerNum-1]
+        Player player = allPlayer[currentPlayerNum - 1]
         player.car.accelerate(deltaSpeed)
         track.playCar(player.car)
 
@@ -54,12 +60,22 @@ class Race {
     }
 
     private int getNextPlayerNum() {
-        1 + (currentPlayerNum  % allPlayer.size())
+        1 + (currentPlayerNum % allPlayer.size())
     }
 
     void checkIsStarted() {
-        if(!started) {
+        if (!started) {
             throw new IllegalStateException("Race is not started.")
         }
+    }
+
+    Character[][] getAsciiRepresentation() {
+        Character[][] representation = track.map.asciiRepresentation
+
+        allPlayer.each {Player player ->
+            trajectoryRepresenter.addTrajectoryToMap(player, representation)
+        }
+
+        return representation
     }
 }

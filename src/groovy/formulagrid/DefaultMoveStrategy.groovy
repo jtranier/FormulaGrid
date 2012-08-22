@@ -2,20 +2,29 @@ package formulagrid
 
 class DefaultMoveStrategy implements MoveStrategy {
 
-    MoveResult calculateMoveResult(Track track, List<Point> path) {
-        Point lastFreePoint = path[0]
+    Path calculatePathAccordingToMap(Track track, Path intendedPath) {
+        Point lastFreePoint = intendedPath.from
+        Point beforeLastFreePoint = null
 
-        Point obstaclePoint = path[1..-1].find { Point point ->
+        List allIntermediaryFreePoint = []
+
+        Point obstaclePoint = (intendedPath.allIntermediaryPoint + intendedPath.to).find { Point point ->
             boolean obstacle = !track.map.getTrackPoint(point).isFree()
             if(!obstacle) {
+                beforeLastFreePoint = lastFreePoint
                 lastFreePoint = point
+                if(beforeLastFreePoint) {
+                    allIntermediaryFreePoint << point
+                }
             }
             return obstacle
         }
 
-        return new MoveResult(
-                finalPosition: lastFreePoint,
-                crash: obstaclePoint != null
+        return new Path(
+                from:  intendedPath.from,
+                to: lastFreePoint,
+                allIntermediaryPoint: allIntermediaryFreePoint,
+                crash: lastFreePoint != intendedPath.to
         )
     }
 }

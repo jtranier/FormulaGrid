@@ -10,11 +10,11 @@
 <body>
 <div class="row">
     <div class="span12" style="text-align: center;">
-        <g:render template="/track/track" model="${[track: race.track]}"/>
+        <g:render template="/race/track" model="${[track: race]}"/>
     </div>
 </div>
 
-<hr />
+<hr/>
 
 <div class="row">
     <div class="span2 offset5">

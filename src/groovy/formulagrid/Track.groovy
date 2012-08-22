@@ -2,8 +2,6 @@ package formulagrid
 
 class Track {
 
-    int width
-    int height
     TrackMap map
     TrackStartGrid startGrid
 
@@ -11,6 +9,14 @@ class Track {
 
     PathFinder pathFinder = new PathFinder()
     MoveStrategy moveStrategy = new DefaultMoveStrategy()
+
+    int getHeight() {
+        map.height
+    }
+
+    int getWidth() {
+        map.width
+    }
 
     void addCar(Car car) { // TODO: ajouter en paramètre la position sur la grille
         checkArgumentIsNotNull('car', car)
@@ -24,16 +30,16 @@ class Track {
 
     void playCar(Car car) {
         checkArgumentIsNotNull('car', car)
-        List<Point> path = pathFinder.findPath(car.intendedMove())
-        MoveResult moveResult = moveStrategy.calculateMoveResult(this, path)
-        map.moveCarTo(car, moveResult.finalPosition)
-        if(moveResult.crash) {
+        Path intentedPath = pathFinder.findPath(car.intendedMove())
+        Path effectivePath = moveStrategy.calculatePathAccordingToMap(this, intentedPath)
+        map.moveCarTo(car, effectivePath)
+        if(effectivePath.crash) {
             applyCrashEffect(car)
         }
     }
 
     private void applyCrashEffect(Car car) {
-        car.speed = new Point(x: 0, y: 0)
+        car.speed = new Point(0, 0)
     }
 
     private void checkArgumentIsNotNull(String argName, def arg) {

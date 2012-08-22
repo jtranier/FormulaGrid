@@ -24,11 +24,11 @@ class StraightLineEquationSpec extends Specification {
         e.message == "Two distinct points are required."
 
         where:
-        p1 = new Point(x: 0, y: 0)
-        p2 = new Point(x: 1, y: 1)
+        p1 = new Point(0, 0)
+        p2 = new Point(1, 1)
     }
 
-    def "getPointFromX - y = ax+b"() {
+    def "getPointFromX - y = ax+b"(int x1, int x2, int y1, int y2, Point p1, Point p2) {
         setup:
         if (p1.x == p2.x) {
             // Bad luck ... The random generator picked a vertical line
@@ -48,8 +48,8 @@ class StraightLineEquationSpec extends Specification {
         [x1, y1] << ((1..9).collect { [random.nextInt(1000), random.nextInt(1000)] }) + [[0, 1]]
         [x2, y2] << ((1..9).collect { [random.nextInt(1000), random.nextInt(1000)] }) + [[0, 2]]
 
-        p1 = new Point(x: (int) x1, y: (int) y1)
-        p2 = new Point(x: (int) x2, y: (int) y2)
+        p1 = new Point(x1, y1)
+        p2 = new Point(x2, y2)
     }
 
     def "getPointFromX - vertical line"() {
@@ -72,7 +72,7 @@ class StraightLineEquationSpec extends Specification {
         y2 = 1
     }
 
-    def "getPointFromY"() {
+    def "getPointFromY"(int x1, int x2, int y1, int y2, Point p1, Point p2) {
         setup:
         if (p1 == p2) {
             // Bad luck ... The random generator picked p1 == p2
@@ -88,7 +88,7 @@ class StraightLineEquationSpec extends Specification {
         [x1, y1] << ((1..9).collect { [random.nextInt(1000), random.nextInt(1000)] }) + [[0, 1]]
         [x2, y2] << ((1..9).collect { [random.nextInt(1000), random.nextInt(1000)] }) + [[0, 2]]
 
-        p1 = new Point(x: (int) x1, y: (int) y1)
-        p2 = new Point(x: (int) x2, y: (int) y2)
+        p1 = new Point(x1, y1)
+        p2 = new Point(x2, y2)
     }
 }

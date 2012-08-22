@@ -4,11 +4,23 @@ import grails.plugin.spock.UnitSpec
 
 class CarSpec extends UnitSpec {
 
-    def "intendedMove"() {
+    def "intendedMove - without position"() {
+        given:
+        Car car = new Car()
+
+        when:
+        car.intendedMove()
+
+        then:
+        def e = thrown(IllegalStateException)
+        e.message == "The car has no position."
+    }
+
+    def "intendedMove - with position"(int px, int py, int vx, int vy) {
         setup:
         Car car = new Car(
-                position: new Point(x: (int)px, y: (int)py),
-                speed: new Point(x:  (int)vx, y: (int)vy)
+                position: new Point(px, py),
+                speed: new Point(vx, vy)
         )
 
         expect:
@@ -23,12 +35,12 @@ class CarSpec extends UnitSpec {
     def "accelerate"(int initialSpeedX, int initialSpeedY, int deltaSpeedX, int deltaSpeedY) {
         setup:
         Car car = new Car(
-                speed: new Point(x:  initialSpeedX, y: initialSpeedY)
+                speed: new Point(initialSpeedX, initialSpeedY)
         )
 
 
         when:
-        car.accelerate(new Point(x: deltaSpeedX, y: deltaSpeedY))
+        car.accelerate(new Point(deltaSpeedX, deltaSpeedY))
 
         then:
         car.speed.x == initialSpeedX + deltaSpeedX
