@@ -18,6 +18,10 @@ class TrackMap {
         this.bitmap = bitmap
     }
 
+    TrackPoint getTrackPoint(int x, int y) {
+        return getTrackPoint(new Point(x, y))
+    }
+
     // TODO overload [] operator
     TrackPoint getTrackPoint(Point point) {
         checkArgumentIsNotNull('point', point)
@@ -52,6 +56,18 @@ class TrackMap {
         }
 
         return representation
+    }
+
+    List<Integer> getAllObstacleAsList() {
+        List list = []
+
+        height.times { y ->
+            width.times { x ->
+                list << (getTrackPoint(x, y).isObstacle() ? 1 : 0)
+            }
+        }
+
+        return list
     }
 
     // TODO Mettre cette méthode en commun

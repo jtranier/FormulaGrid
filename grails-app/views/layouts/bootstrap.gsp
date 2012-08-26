@@ -14,10 +14,6 @@
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-    %{--TODO Créer un module resource--}%
-    <link href="${resource(dir: 'css', file: 'bootstrap-docs.css')}" rel="stylesheet">
-
-
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
 

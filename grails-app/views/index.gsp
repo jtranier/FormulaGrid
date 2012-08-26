@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="bootstrap"/>
     <title>Formula Grid</title>
-    <r:require modules="bootstrap"/>
+    <r:require modules="bootstrapDocs"/>
 </head>
 
 <body>

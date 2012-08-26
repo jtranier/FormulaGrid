@@ -3,7 +3,7 @@ package formulagrid
 class Race {
     Track track
 
-    private List<Player> allPlayer = []
+    List<Player> allPlayer = []
     boolean started = false
 
     int numTurn
@@ -50,7 +50,7 @@ class Race {
 
     void play(Point deltaSpeed) {
         checkIsStarted()
-
+        "bl"
         Player player = allPlayer[currentPlayerNum - 1]
         player.car.accelerate(deltaSpeed)
         track.playCar(player.car)
