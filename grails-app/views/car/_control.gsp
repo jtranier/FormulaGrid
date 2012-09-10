@@ -1,4 +1,4 @@
-<g:form action="makeAMove">
+<g:form name="car-control" action="makeAMove">
     <table class="table table-bordered">
         <tr>
             <td style="text-align: center;"><g:submitButton name="accelerationCode" value="7" class="btn btn-primary" /></td>

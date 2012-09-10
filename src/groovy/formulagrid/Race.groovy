@@ -78,4 +78,27 @@ class Race {
 
         return representation
     }
+
+    static final Closure MARSHALLER = { Race race ->
+        Map result = [
+                track: [
+                        width: race.track.width,
+                        height: race.track.height,
+                        allObstacleAsList: race.track.map.allObstacleAsList
+                ],
+                currentCarNum: race.currentPlayerNum,
+                allCar: race.allPlayer.collect { Player player ->
+                    [
+                            num: player.car.num,
+                            trajectory: player.car.trajectory.collect { Path path ->
+                                path.from
+                            } + [player.car.position],
+                            position: player.car.position,
+                            speed: player.car.speed
+                    ]
+                }
+        ]
+
+        return result
+    }
 }

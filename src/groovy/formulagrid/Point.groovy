@@ -15,7 +15,14 @@ class Point {
     }
 
     Point plus(Point p2) {
-        return new Point(x+p2.x, y+p2.y)
+        return new Point(x + p2.x, y + p2.y)
+    }
+
+    static final MARSHALLER = { Point point ->
+        return [
+                x: point.x,
+                y: point.y
+        ]
     }
 
     boolean equals(o) {

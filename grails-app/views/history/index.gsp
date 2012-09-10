@@ -3,7 +3,7 @@
 <head>
     <meta name="layout" content="formulagrid"/>
     <title>Historique</title>
-    <r:require modules="bootstrapDocs"/>
+    <r:require modules="bootstrapDocs,historyRace07"/>
 </head>
 
 <body>
@@ -15,6 +15,7 @@
 
     <div class="subnav">
         <ul class="nav nav-pills">
+            <li><a href="#version-0.7">Version 0.7</a></li>
             <li><a href="#version-0.6">Version 0.6</a></li>
             <li><a href="#version-0.5">Version 0.5</a></li>
             <li><a href="#version-0.4">Version 0.4</a></li>
@@ -24,6 +25,77 @@
         </ul>
     </div>
 </header>
+
+<section id="version-0.7">
+    <div class="row">
+        <div class="span10 offset1">
+            <h1>Version 0.7</h1>
+
+            <div class="row">
+                <div class="span4">
+                    <p class="lead">Déplacements interactifs</p>
+
+                    <ul>
+                        <li>Les destinations possibles sont représentées par des cercles transparents.</li>
+                        <li>Le survol par la souris d'une destination permet d'afficher la trajectoire correspondante.</li>
+                        <li>Le clic sur une destination possible permet d'effectuer le déplacement.</li>
+                    </ul>
+                    <p>
+                        Le code <i>Javascript</i> a été packagé sous forme d'un module réutilisable, ce qui permet
+                        l'illustration ci-contre.
+                    </p>
+                </div>
+
+                <div class="span4 offset1">
+                    <div id="svg"></div>
+                </div>
+                <script type="text/javascript">
+                    var config07 = {
+                        width:20,
+                        height:10
+                    };
+                    var allObstacleAsList = [];
+
+                    for (var j = 0; j < config07.height; j++) {
+                        for (var i = 0; i < config07.width; i++) {
+                            if (i === 0 || j === 0 || i === config07.width - 1 || j === config07.height - 1) {
+                                allObstacleAsList.push(1);
+                            }
+                            else {
+                                allObstacleAsList.push(0);
+                            }
+                        }
+                    }
+
+                    var race = {
+                        track:{
+                            width:config07.width,
+                            height:config07.height,
+                            allObstacleAsList:allObstacleAsList
+                        },
+                        currentCarNum:1,
+                        allCar:[
+                            {
+                                num:1,
+                                trajectory:[
+                                    {x:7, y:8},
+                                    {x:8, y:7},
+                                    {x:9, y:5}
+                                ],
+                                position:{x:9, y:5},
+                                speed:{x:1, y:-2}
+                            }
+                        ]
+                    };
+
+                    createRaceApplication(race, "svg");
+                </script>
+            </div>
+        </div><!-- /.span -->
+    </div><!-- /.row -->
+</section>
+<hr/>
+
 
 <section id="version-0.6">
     <div class="row">
@@ -51,7 +123,6 @@
     </div><!-- /.row -->
 </section>
 <hr/>
-
 
 <section id="version-0.5">
     <div class="row">

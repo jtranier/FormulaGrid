@@ -250,9 +250,5 @@ function drawPossibleMove(car, px, py, accelerationCode) {
             car.trajectory.pop();
             d3.select('#' + getTrajectoryId(car.num))
                 .attr("d", d3line2(car.trajectory));
-        })
-        .on("click", function () {
-            document.forms["car-control"].action += "?accelerationCode=" + accelerationCode;
-            document.forms["car-control"].submit();
         });
 }

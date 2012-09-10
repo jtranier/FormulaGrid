@@ -1,5 +1,7 @@
 package formulagrid
 
+import grails.converters.JSON
+
 class Car {
 
     Integer num = null
