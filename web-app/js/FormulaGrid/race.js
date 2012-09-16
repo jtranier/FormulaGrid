@@ -41,7 +41,7 @@ function createRaceApplication(race, containerId) {
     initSvg(containerId);
     drawTrackBox("white");
     drawTrackGrid();
-    drawAllObstacle(raceModel.track.allObstacleAsList);
+    drawAllObstacle(model.race.track.allObstacleAsList);
     drawTrackBox("none");
 
     model.race.allCar.forEach(function (car) {

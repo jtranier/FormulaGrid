@@ -37,7 +37,7 @@
 </div>
 
 <script type="text/javascript">
-    createRaceApplication(${race as JSON});
+    createRaceApplication(${race as JSON}, "svg");
 </script>
 
 </body>
