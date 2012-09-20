@@ -3,7 +3,7 @@
 <head>
     <meta name="layout" content="formulagrid"/>
     <title>Historique</title>
-    <r:require modules="bootstrapDocs,historyRace07"/>
+    <r:require modules="bootstrapDocs,historyRace07,historyRace08"/>
 </head>
 
 <body>
@@ -15,6 +15,7 @@
 
     <div class="subnav">
         <ul class="nav nav-pills">
+            <li><a href="#version-0.8">Version 0.8</a></li>
             <li><a href="#version-0.7">Version 0.7</a></li>
             <li><a href="#version-0.6">Version 0.6</a></li>
             <li><a href="#version-0.5">Version 0.5</a></li>
@@ -25,6 +26,143 @@
         </ul>
     </div>
 </header>
+
+<section id="version-0.8">
+    <div class="row">
+        <div class="span10 offset1">
+            <h1>Version 0.8</h1>
+
+            <div class="row">
+                <div class="span4 offset1">
+                    <div id="svg08"></div>
+                </div>
+
+                <div class="span4">
+                    <p class="lead">Animations & fluidité</p>
+
+                    <p>Les communications entre le client et le serveur s'effectuent de manière asynchrones (AJAX) ce
+                    qui permet de ne pas recharger l'intégralité de la page à chaque déplacement.</p>
+
+                    <p>Le déplacements des autos est maintenant animé.</p>
+
+                </div>
+
+                <script type="text/javascript">
+                    function createRace08Scenario() {
+                        var config = {
+                            width:20,
+                            height:10
+                        };
+                        var allObstacleAsList = [];
+
+                        for (var j = 0; j < config.height; j++) {
+                            for (var i = 0; i < config.width; i++) {
+                                if (i === 0 || j === 0 || i === config.width - 1 || j === config.height - 1) {
+                                    allObstacleAsList.push(1);
+                                }
+                                else {
+                                    allObstacleAsList.push(0);
+                                }
+                            }
+                        }
+
+                        var car = {
+                            num:1,
+                            trajectory:[],
+                            position:{x:4, y:8},
+                            speed:{x:0, y:0}
+                        };
+
+                        var race = {
+                            track:{
+                                width:config.width,
+                                height:config.height,
+                                allObstacleAsList:allObstacleAsList
+                            },
+                            currentCarNum:1,
+                            allCar:[car]
+                        };
+
+                        var race08 = new Race08(race, "svg08");
+
+                        function move1() {
+                            car.trajectory = [
+                                {x:4, y:8},
+                                {x:4, y:7}
+                            ];
+                            car.position = {x:4, y:7};
+                            car.speed = {x:0, y:-1};
+                            race08.moveCar(car, 1);
+                        }
+
+                        function move2() {
+                            car.trajectory = [
+                                {x:4, y:8},
+                                {x:4, y:7},
+                                {x:5, y:6}
+                            ];
+                            car.position = {x:5, y:6};
+                            car.speed = {x:1, y:-1};
+                            race08.moveCar(car, 1);
+                        }
+
+                        function move3() {
+                            car.trajectory = [
+                                {x:4, y:8},
+                                {x:4, y:7},
+                                {x:5, y:6},
+                                {x:7, y:5}
+                            ];
+                            car.position = {x:7, y:5};
+                            car.speed = {x:2, y:-1};
+                            race08.moveCar(car, 1);
+                        }
+
+                        function move4() {
+                            car.trajectory = [
+                                {x:4, y:8},
+                                {x:4, y:7},
+                                {x:5, y:6},
+                                {x:7, y:5},
+                                {x:10, y:5}
+                            ];
+                            car.position = {x:10, y:5};
+                            car.speed = {x:3, y:0};
+                            race08.moveCar(car, 1);
+                        }
+
+                        function reset() {
+                            car = {
+                                num:1,
+                                trajectory:[],
+                                position:{x:4, y:8},
+                                speed:{x:0, y:0}
+                            };
+
+                            race08.reset(car);
+                        }
+
+                        function scenarioLoop() {
+                            window.setTimeout(move1, 1000);
+                            window.setTimeout(move2, 2000);
+                            window.setTimeout(move3, 3000);
+                            window.setTimeout(move4, 4000);
+                            window.setTimeout(reset, 5000);
+                        }
+
+                        scenarioLoop();
+                        window.setInterval(scenarioLoop, 6000);
+                    }
+
+                    createRace08Scenario();
+                </script>
+            </div>
+        </div><!-- /.span -->
+
+    </div><!-- /.row -->
+</section>
+<hr/>
+
 
 <section id="version-0.7">
     <div class="row">
@@ -40,55 +178,60 @@
                         <li>Le survol par la souris d'une destination permet d'afficher la trajectoire correspondante.</li>
                         <li>Le clic sur une destination possible permet d'effectuer le déplacement.</li>
                     </ul>
+
                     <p>
                         Le code <i>Javascript</i> a été packagé sous forme d'un module réutilisable, ce qui permet
-                        l'illustration ci-contre.
+                    l'illustration ci-contre.
                     </p>
                 </div>
 
                 <div class="span4 offset1">
-                    <div id="svg"></div>
+                    <div id="svg07"></div>
                 </div>
                 <script type="text/javascript">
-                    var config07 = {
-                        width:20,
-                        height:10
-                    };
-                    var allObstacleAsList = [];
+                    function createRace07Scenario() {
+                        var config07 = {
+                            width:20,
+                            height:10
+                        };
+                        var allObstacleAsList = [];
 
-                    for (var j = 0; j < config07.height; j++) {
-                        for (var i = 0; i < config07.width; i++) {
-                            if (i === 0 || j === 0 || i === config07.width - 1 || j === config07.height - 1) {
-                                allObstacleAsList.push(1);
-                            }
-                            else {
-                                allObstacleAsList.push(0);
+                        for (var j = 0; j < config07.height; j++) {
+                            for (var i = 0; i < config07.width; i++) {
+                                if (i === 0 || j === 0 || i === config07.width - 1 || j === config07.height - 1) {
+                                    allObstacleAsList.push(1);
+                                }
+                                else {
+                                    allObstacleAsList.push(0);
+                                }
                             }
                         }
+
+                        var race = {
+                            track:{
+                                width:config07.width,
+                                height:config07.height,
+                                allObstacleAsList:allObstacleAsList
+                            },
+                            currentCarNum:1,
+                            allCar:[
+                                {
+                                    num:1,
+                                    trajectory:[
+                                        {x:7, y:8},
+                                        {x:8, y:7},
+                                        {x:9, y:5}
+                                    ],
+                                    position:{x:9, y:5},
+                                    speed:{x:1, y:-2}
+                                }
+                            ]
+                        };
+
+                        createRaceApplication(race, "svg07");
                     }
 
-                    var race = {
-                        track:{
-                            width:config07.width,
-                            height:config07.height,
-                            allObstacleAsList:allObstacleAsList
-                        },
-                        currentCarNum:1,
-                        allCar:[
-                            {
-                                num:1,
-                                trajectory:[
-                                    {x:7, y:8},
-                                    {x:8, y:7},
-                                    {x:9, y:5}
-                                ],
-                                position:{x:9, y:5},
-                                speed:{x:1, y:-2}
-                            }
-                        ]
-                    };
-
-                    createRaceApplication(race, "svg");
+                    createRace07Scenario();
                 </script>
             </div>
         </div><!-- /.span -->

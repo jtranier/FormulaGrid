@@ -1,4 +1,4 @@
-var Race = function (raceModel, containerId, urlJsonMakeAMove) {
+var Race08 = function (raceModel, containerId) {
     var config = {
         palette:[ "red", "blue"],
         car:{
@@ -230,16 +230,7 @@ var Race = function (raceModel, containerId, urlJsonMakeAMove) {
     }
 
     function drawAllPossibleMove(car) {
-        [-1, 0, 1].forEach(function (i) {
-            [-1, 0, 1].forEach(function (j) {
-                drawPossibleMove(
-                    car,
-                    car.position.x + car.speed.x + i,
-                    car.position.y + car.speed.y + j,
-                    (i + 2) + 3 * (1 - j) // Calcul (abscon) du code d'accélération
-                );
-            });
-        });
+        return; // do nothing for the demo
     }
 
     function drawPossibleMove(car, px, py, accelerationCode) {
@@ -266,14 +257,12 @@ var Race = function (raceModel, containerId, urlJsonMakeAMove) {
                 play(accelerationCode);
             })
             .on("mouseover", function () {
-                selectPossibleMove(car, possibleMoveRepresentation, {x: px, y: py});
+                selectPossibleMove(car, possibleMoveRepresentation);
             })
             .on("mouseout", function () {
                 unselectPossibleMove(car, possibleMoveRepresentation);
             });
     }
-
-    var self = this;
 
     function play(accelerationCode) {
         removeAllPossibleMove();
@@ -282,17 +271,17 @@ var Race = function (raceModel, containerId, urlJsonMakeAMove) {
             urlJsonMakeAMove,
             {accelerationCode:accelerationCode},
             function (makeAMoveModel) {
-                self.moveCar(makeAMoveModel.movingCar, makeAMoveModel.nextCarNum);
+                moveCar(makeAMoveModel.movingCar, makeAMoveModel.nextCarNum);
             }
         )
     }
 
-    function selectPossibleMove(car, possibleMoveRepresentation, point) {
+    function selectPossibleMove(car, possibleMoveRepresentation) {
         possibleMoveRepresentation
             .attr("opacity", 1)
             .attr("r", xScale(config.possibleMove.selectedSize));
 
-        car.trajectory.push(point);
+        car.trajectory.push({x:px, y:py});
         d3.select("#" + containerId + ' #' + getTrajectoryId(car.num))
             .attr("d", lineFn(car.trajectory));
     }
@@ -326,6 +315,13 @@ var Race = function (raceModel, containerId, urlJsonMakeAMove) {
         moveCarRepresentation(movingCar);
         updateTrajectory(movingCar);
         drawAllPossibleMove(getCurrentCar());
-    }
+    };
+
+    this.reset = function(car) {
+        d3.selectAll("#" + containerId + ' #'+getTrajectoryId(car.num)).remove();
+        d3.selectAll("#" + containerId + ' circle').remove();
+        drawCar(car);
+        drawTrajectory(car);
+    };
 };
 

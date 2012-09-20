@@ -88,14 +88,7 @@ class Race {
                 ],
                 currentCarNum: race.currentPlayerNum,
                 allCar: race.allPlayer.collect { Player player ->
-                    [
-                            num: player.car.num,
-                            trajectory: player.car.trajectory.collect { Path path ->
-                                path.from
-                            } + [player.car.position],
-                            position: player.car.position,
-                            speed: player.car.speed
-                    ]
+                    player.car
                 }
         ]
 

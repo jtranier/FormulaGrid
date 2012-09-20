@@ -1,5 +1,7 @@
 package formulagrid
 
+import grails.converters.JSON
+
 class RaceController {
 
     RaceSessionService raceSessionService
@@ -9,13 +11,29 @@ class RaceController {
     }
 
     def makeAMove(AccelerateCommand command) {
-        if(!command.validate()) {
+        if (!command.validate()) {
             throw new IllegalArgumentException(command.errors.toString())
         }
 
         Point deltaSpeed = getAccelerationFromCode(command.accelerationCode)
         raceSessionService.race.play(deltaSpeed)
-        redirect(action:  "index")
+        redirect(action: "index")
+    }
+
+    def jsonMakeAMove(AccelerateCommand command) {
+        if (!command.validate()) {
+            throw new IllegalArgumentException(command.errors.toString())
+        }
+
+        Car movingCar = raceSessionService.race.currentPlayer.car
+
+        Point deltaSpeed = getAccelerationFromCode(command.accelerationCode)
+        raceSessionService.race.play(deltaSpeed)
+
+        render([
+                nextCarNum: raceSessionService.race.currentPlayer.car.num,
+                movingCar: movingCar
+        ] as JSON)
     }
 
     private Point getAccelerationFromCode(int accelerationCode) {

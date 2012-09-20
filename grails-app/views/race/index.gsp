@@ -5,7 +5,7 @@
     <meta name="layout" content="formulagrid"/>
     <title><g:message code="formulagrid.Race"/></title>
 
-    <r:require modules="bootstrap,race"/>
+<r:require modules="bootstrap,race"/>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
 </div>
 
 <script type="text/javascript">
-    createRaceApplication(${race as JSON}, "svg");
+    new Race(${race as JSON}, "svg", '<g:createLink action="jsonMakeAMove" />');
 </script>
 
 </body>

@@ -12,33 +12,35 @@ var config = {
         mouseZone:{
             size:0.9
         },
-        opacity: 0.5
+        opacity:0.5
     },
-    svg: {
-        padding: 10,
-        strokeWidth: 5,
-        rounded: 10
+    svg:{
+        padding:10,
+        strokeWidth:5,
+        rounded:10
     }
 };
 
 var model = {
-    race: undefined
+    race:undefined
 };
 
 var application = {
-    svg: undefined,
-    xScale: undefined,
-    yScale: undefined,
-    xMax: undefined,
-    yMax: undefined
+    containerId:undefined,
+    svg:undefined,
+    xScale:undefined,
+    yScale:undefined,
+    xMax:undefined,
+    yMax:undefined
 };
 
 
 // TODO how to describe the model ?
 function createRaceApplication(race, containerId) {
     model.race = race;
+    application.containerId = containerId;
 
-    initSvg(containerId);
+    initSvg();
     drawTrackBox("white");
     drawTrackGrid();
     drawAllObstacle(model.race.track.allObstacleAsList);
@@ -63,10 +65,10 @@ function createRaceApplication(race, containerId) {
     });
 }
 
-function initSvg(containerId) {
+function initSvg() {
     application.xMax = model.race.track.width;
     application.yMax = model.race.track.height;
-    var width = d3.select("#"+containerId).property("clientWidth");
+    var width = d3.select("#" + application.containerId).property("clientWidth");
     var height = Math.round(width * (application.yMax / application.xMax));
 
     application.xScale = d3.scale.linear()
@@ -77,7 +79,7 @@ function initSvg(containerId) {
         .domain([0, application.yMax])
         .range(["0", (height - 2 * config.svg.padding)]);
 
-    application.svg = d3.select("#svg").
+    application.svg = d3.select("#" + application.containerId).
         append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -109,7 +111,7 @@ function drawTrackBox(fill) {
 }
 
 function drawTrackGrid() {
-    application.svg.selectAll("line.vertical")
+    application.svg.selectAll("#" + application.containerId + " line.vertical")
         .data(d3.range(application.xMax - 1))
         .enter()
         .append("line")
@@ -126,7 +128,7 @@ function drawTrackGrid() {
         .attr("stroke", "darkgrey");
 
 
-    application.svg.selectAll("line.horizontal")
+    application.svg.selectAll("#" + application.containerId + " line.horizontal")
         .data(d3.range(application.yMax - 1))
         .enter()
         .append("line")
@@ -144,7 +146,7 @@ function drawTrackGrid() {
 }
 
 function drawAllObstacle(allObstacle) {
-    application.svg.selectAll("rect.obstacle")
+    application.svg.selectAll("#" + application.containerId + " rect.obstacle")
         .data(allObstacle)
         .enter()
         .append("rect")
@@ -176,7 +178,7 @@ function drawCar(car) {
 }
 
 function drawAllTrajectoryPoint(car) {
-    car.trajectory.forEach(function(point) {
+    car.trajectory.forEach(function (point) {
         drawCircle(point.x, point.y, config.trajectory.pointSize, getPaletteColor(car.num));
     });
 
@@ -239,7 +241,7 @@ function drawPossibleMove(car, px, py, accelerationCode) {
                 .attr("r", application.xScale(config.possibleMove.selectedSize));
 
             car.trajectory.push({x:px, y:py});
-            d3.select('#' + getTrajectoryId(car.num))
+            d3.select("#" + application.containerId + ' #' + getTrajectoryId(car.num))
                 .attr("d", d3line2(car.trajectory));
         })
         .on("mouseout", function () {
@@ -248,7 +250,7 @@ function drawPossibleMove(car, px, py, accelerationCode) {
                 .attr("r", application.xScale(config.possibleMove.normalSize));
 
             car.trajectory.pop();
-            d3.select('#' + getTrajectoryId(car.num))
+            d3.select("#" + application.containerId + ' #' + getTrajectoryId(car.num))
                 .attr("d", d3line2(car.trajectory));
         });
 }

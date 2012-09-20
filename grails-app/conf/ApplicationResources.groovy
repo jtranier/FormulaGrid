@@ -15,6 +15,12 @@ modules = {
     race {
         resource url: 'js/FormulaGrid/race.js', disposition: 'head'
         dependsOn 'd3'
+        dependsOn 'jquery'
+    }
+
+    historyRace08 {
+        resource url: 'js/FormulaGrid/history/race-0.8.js', disposition: 'head'
+        dependsOn 'd3'
     }
 
     historyRace07 {

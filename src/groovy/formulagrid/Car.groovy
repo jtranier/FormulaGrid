@@ -1,7 +1,5 @@
 package formulagrid
 
-import grails.converters.JSON
-
 class Car {
 
     Integer num = null
@@ -28,6 +26,19 @@ class Car {
     void accelerate(Point deltaSpeed) {
         speed.x += deltaSpeed.x
         speed.y += deltaSpeed.y
+    }
+
+    static final Closure MARSHALLER = { Car car ->
+        Map result = [
+                num: car.num,
+                trajectory: car.trajectory.collect { Path path ->
+                    path.from
+                } + [car.position],
+                position: car.position,
+                speed: car.speed
+        ]
+
+        return result
     }
 
     @Override
